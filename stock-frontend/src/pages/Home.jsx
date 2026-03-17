@@ -8,7 +8,7 @@ import { CryptoUpdates } from '../components/CryptoUpdates';
 import { NewsCard } from '../components/NewsCard';
 import { Footer } from '../components/Footer';
 import { DashboardLayout } from '../components/layout/DashboardLayout';
-import { Watchlist } from '../components/dashboard/Watchlist';
+import { Watchlist, WatchlistSparkline } from '../components/dashboard/Watchlist';
 import { AccountSummary } from '../components/dashboard/AccountSummary';
 import { QuickTrade } from '../components/dashboard/QuickTrade';
 import { PortfolioHero } from '../components/dashboard/PortfolioHero';

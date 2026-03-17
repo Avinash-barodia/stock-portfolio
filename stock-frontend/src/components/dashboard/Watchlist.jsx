@@ -96,7 +96,7 @@ export const Watchlist = ({ data, active, setActive, onQuickBuy }) => {
                       {isPositive ? <TrendingUp size={10} className="text-profit" /> : <TrendingDown size={10} className="text-loss" />}
                     </span>
                   </div>
-                  <Sparkline data={symbol} color={isPositive ? 'var(--profit)' : 'var(--loss)'} />
+                  <WatchlistSparkline data={symbol} color={isPositive ? 'var(--profit)' : 'var(--loss)'} />
                 </div>
                 
                 <div className='flex items-center gap-x-4 min-w-[120px] justify-end'>
