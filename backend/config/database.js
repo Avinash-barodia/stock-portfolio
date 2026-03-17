@@ -1,7 +1,7 @@
 const mongoose =require('mongoose');
 
 const dbConnect=async()=>{
-    mongoose.connect("mongodb://localhost:27017/stocksDB",{
+    mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost:27017/stocksDB",{
         useNewUrlParser:true,
         useUnifiedTopology:true,
     })

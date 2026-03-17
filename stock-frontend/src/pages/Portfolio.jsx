@@ -19,7 +19,7 @@ export const Portfolio = () => {
     const fetchAssets=async()=>{
         try{
           //  console.log('token',token)
-            const res = await axios.get('http://localhost:4900/api/v1/getStocks', {
+            const res = await axios.get('/api/v1/getStocks', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

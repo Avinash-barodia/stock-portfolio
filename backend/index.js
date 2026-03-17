@@ -13,12 +13,16 @@ dbConnect();
 const stockRoutes=require('./routes/stockRoutes');
 const userRoutes=require('./routes/userRoutes')
 app.use('/api/v1/',stockRoutes,userRoutes);
-const PORT=4900 || 5600 || 4500;
+const path = require('path');
+const PORT= process.env.PORT || 4900;
 
-
-
-
-
+// Production setup
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../stock-frontend/build')));
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, '../stock-frontend', 'build', 'index.html'));
+    });
+}
 
 app.listen(PORT,()=>{
     console.log(`App has successfully started at  ${PORT}`);

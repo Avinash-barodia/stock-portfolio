@@ -48,7 +48,7 @@ export const Home = () => {
     if (token) {
       const fetchPortfolio = async () => {
         try {
-          const res = await axios.get('http://localhost:4900/api/v1/getStocks', {
+          const res = await axios.get('/api/v1/getStocks', {
             headers: { Authorization: `Bearer ${token}` }
           });
           const assets = res.data.data.map(el => el.data);

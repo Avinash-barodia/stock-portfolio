@@ -6,7 +6,7 @@ export function login(email,password,navigate){
       dispatch(setLoading(true));
       try{
        // console.log('reached inside function and now making api call');
-        const result=await axios.post("http://localhost:4900/api/v1/login",{email,password});
+        const result=await axios.post("/api/v1/login",{email,password});
        
         console.log('data in functions',result);
         dispatch(setToken(result.data.token));

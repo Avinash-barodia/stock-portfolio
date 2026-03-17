@@ -37,8 +37,8 @@ export const Technical = () => {
             let formattedData = [];
             if (isStock) {
                 // Fetch from our backend proxy with range
-                const { data } = await axios.get(`http://localhost:4900/api/v1/history/${upperName}?interval=${intv}&range=${rng}`);
-                formattedData = data.data;
+                const response = await axios.get(`/api/v1/history/${upperName}?interval=${intv}&range=${rng}`);
+                formattedData = response.data.data;
             } else {
                 // Fetch from Binance for Crypto
                 const binanceSymbol = upperName.endsWith('USDT') ? upperName : `${upperName}USDT`;

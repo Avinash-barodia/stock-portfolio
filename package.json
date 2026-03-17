@@ -1,0 +1,10 @@
+{
+  "name": "stock-portfolio-root",
+  "version": "1.0.0",
+  "scripts": {
+    "install-all": "npm install && cd backend && npm install && cd ../stock-frontend && npm install",
+    "build-frontend": "cd stock-frontend && npm run build",
+    "start": "cd backend && npm start",
+    "render-build": "npm run install-all && npm run build-frontend"
+  }
+}

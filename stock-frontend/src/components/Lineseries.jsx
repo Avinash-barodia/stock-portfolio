@@ -26,7 +26,7 @@ const RangeSwitcherChart = ({data}) => {
 
 
   const getDailyData=async()=>{
-      const res=await axios.post('http://localhost:4900/api/v1/daily',{name:data});
+      const res=await axios.post('/api/v1/daily',{name:data});
      //console.log('resdata',res.data.data);
       setDySeries(res.data.data);
   }

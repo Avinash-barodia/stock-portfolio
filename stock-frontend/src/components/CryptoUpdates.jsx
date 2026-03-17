@@ -24,7 +24,7 @@ export const CryptoUpdates = ({data}) => {
    }
        try{
         console.log('token',token)
-        const res = await axios.post('http://localhost:4900/api/v1/buy', target, {
+        const res = await axios.post('/api/v1/buy', target, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

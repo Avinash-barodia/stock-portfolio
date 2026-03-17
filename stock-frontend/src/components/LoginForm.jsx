@@ -12,7 +12,7 @@ export const LoginForm = () => {
     const formSubmit= async(data)=>{
       // console.log('data in formSubmit',data);
       // console.log('going to the function');
-      const resp=await axios.post("http://localhost:4900/api/v1/signup",data);
+      const resp=await axios.post("/api/v1/signup",data);
       console.log('first',resp);
        }
  
