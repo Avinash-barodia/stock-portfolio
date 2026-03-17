@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createChart } from 'lightweight-charts';
-import axios from 'axios';
+import api from '../utils/api';
 
-const RangeSwitcherChart = ({data}) => {
+const RangeSwitcherChart = ({ data }) => {
   const chartContainerRef = useRef(null);
   const chartRef = useRef(null);
-  const[dySeries,setDySeries]=useState([]);
+  const [dySeries, setDySeries] = useState([]);
   const areaSeriesRef = useRef(null);
 
   const intervalColors = {
@@ -16,7 +16,7 @@ const RangeSwitcherChart = ({data}) => {
   };
 
   const seriesesData = new Map([
-    ['1D',dySeries],
+    ['1D', dySeries],
     ['1W', [{ time: '2022-01-01', value: 50 }, { time: '2022-01-07', value: 70 }]],
     ['1M', [{ time: '2022-01-01', value: 50 }, { time: '2022-01-31', value: 60 }]],
     ['1Y', [{ time: '2022-01-01', value: 50 }, { time: '2022-12-31', value: 80 }]],
@@ -24,31 +24,29 @@ const RangeSwitcherChart = ({data}) => {
 
   const [currentInterval, setCurrentInterval] = useState('1D');
 
-
-  const getDailyData=async()=>{
-      const res=await axios.post('/api/v1/daily',{name:data});
-     //console.log('resdata',res.data.data);
+  const getDailyData = async () => {
+    try {
+      const res = await api.post('/daily', { name: data });
       setDySeries(res.data.data);
+    } catch (err) {
+      console.error('Daily data fetch error:', err);
+    }
   }
-  useEffect(()=>{
-     getDailyData();
-     
 
-  },[])
+  useEffect(() => {
+    getDailyData();
+  }, []);
 
   useEffect(() => {
     const chartOptions = {
       layout: {
-        textColor: 'black',
-        background: { type: 'solid', color: 'black' },
+        textColor: '#9CA3AF',
+        background: { type: 'solid', color: 'transparent' },
+        fontFamily: 'Inter',
       },
       grid: {
-        vertLines: {
-          visible: false,  // Make vertical grid lines invisible
-        },
-        horzLines: {
-          visible: false,  // Make horizontal grid lines invisible
-        },
+        vertLines: { visible: false },
+        horzLines: { visible: false },
       },
       height: 600,
     };
@@ -57,7 +55,7 @@ const RangeSwitcherChart = ({data}) => {
 
     const areaSeries = chart.addAreaSeries({
       topColor: intervalColors['1D'],
-      bottomColor: intervalColors['1D'] + '77', // Adding transparency
+      bottomColor: intervalColors['1D'] + '77',
       lineColor: intervalColors['1D'],
     });
     areaSeriesRef.current = areaSeries;
@@ -76,7 +74,7 @@ const RangeSwitcherChart = ({data}) => {
     areaSeries.setData(seriesesData.get(interval));
     areaSeries.applyOptions({
       topColor: intervalColors[interval],
-      bottomColor: intervalColors[interval] + '77', // Adding transparency
+      bottomColor: intervalColors[interval] + '77',
       lineColor: intervalColors[interval],
     });
     chartRef.current.timeScale().fitContent();
@@ -87,14 +85,14 @@ const RangeSwitcherChart = ({data}) => {
   }, [currentInterval]);
 
   return (
-    <div className='bg-black p-10'>
-      <div ref={chartContainerRef} />
-      <div className="flex space-x-2 mt-4">
+    <div className='bg-[#121826] p-6 rounded-2xl border border-white/10 shadow-xl overflow-hidden'>
+      <div ref={chartContainerRef} className='w-full' />
+      <div className="flex bg-white/5 p-1 rounded-xl border border-white/5 mt-6 w-fit mx-auto">
         {['1D', '1W', '1M', '1Y'].map((interval) => (
           <button
             key={interval}
             onClick={() => setCurrentInterval(interval)}
-            className="px-6 py-2 font-medium text-gray-900 bg-gray-100 rounded-lg hover:bg-gray-200 active:bg-gray-300"
+            className={`px-6 py-2 text-xs font-bold rounded-lg transition-all ${currentInterval === interval ? 'bg-primary-blue text-white shadow-lg' : 'text-text-secondary hover:text-white'}`}
           >
             {interval}
           </button>

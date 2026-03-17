@@ -1,154 +1,129 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import axios from 'axios'
-import { AssetCard } from './AssetCard'
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import api from '../utils/api';
+import { AssetCard } from './AssetCard';
 import { PieChart } from '@mui/x-charts/PieChart';
 import ElementHighlights from '../components/Piechart';
+
 export const Portfolio = () => {
-    const user =useSelector((state)=>state.user)
-    const token=user.token;
+    const user = useSelector((state) => state.user);
+    const token = user.token;
 
-
-    const [assets,setAssets]=useState([]);
-    const [profit,setProfit]=useState(0);
-    const [invested,setInvested]=useState(0);
-    const [percent,setPercent]=useState(0);
-    const [worth,setWorth]=useState(0);
-    const [send,setSend]=useState([]);
+    const [assets, setAssets] = useState([]);
+    const [profit, setProfit] = useState(0);
+    const [invested, setInvested] = useState(0);
+    const [percent, setPercent] = useState(0);
+    const [worth, setWorth] = useState(0);
+    const [send, setSend] = useState([]);
     
-    const fetchAssets=async()=>{
-        try{
-          //  console.log('token',token)
-            const res = await axios.get('/api/v1/getStocks', {
+    const fetchAssets = async () => {
+        try {
+            const res = await api.get('/getStocks', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-         // console.log('res',res);
-          let temp=[];
-          res.data.data.forEach(el=>temp.push(el.data));
-         // console.log('temp',temp);
-          setAssets(temp);
-          
-         // console.log('assets',assets);
-        }
-        catch(error){
-            console.log('Error fteching stocks from user',error.message);
+            let temp = [];
+            res.data.data.forEach(el => temp.push(el.data));
+            setAssets(temp);
+        } catch (error) {
+            console.log('Error fetching stocks from user', error.message);
         }
     }
     
-    const calculatePortfolio=async()=>{
-        let inv=0;
+    const calculatePortfolio = async () => {
+        let inv = 0;
         assets.forEach(element => {
-            inv+=parseFloat(element.buyingPrice);
+            inv += parseFloat(element.buyingPrice);
         });
         setInvested(inv);
-        let rev=0;
-        assets.forEach(element=>{
-         rev+=parseFloat(element.currentPrice);
+        let rev = 0;
+        assets.forEach(element => {
+            rev += parseFloat(element.currentPrice);
         })
         setWorth(rev);
-        let perc=0;
-        assets.forEach(element=>{
-         perc+=parseFloat(((element.currentPrice-element.buyingPrice)/element.buyingPrice)*100);
+        let perc = 0;
+        assets.forEach(element => {
+            perc += parseFloat(((element.currentPrice - element.buyingPrice) / element.buyingPrice) * 100);
         })
 
-        perc/=assets.length;
-        perc=parseFloat(perc).toFixed(2)
-        setPercent(perc);
-        let pro=0;
-        assets.forEach(element=>{
-            pro+=parseFloat(element.currentPrice-element.buyingPrice);
+        if (assets.length > 0) {
+            perc /= assets.length;
+            perc = parseFloat(perc).toFixed(2);
+            setPercent(perc);
+        }
+        
+        let pro = 0;
+        assets.forEach(element => {
+            pro += parseFloat(element.currentPrice - element.buyingPrice);
         })
         setProfit(pro);
-        let temp=[];
-        assets.forEach(element=>{
-            console.log('q:',element.quantity);
-          temp.push({value:element.quantity});
+        let temp = [];
+        assets.forEach(element => {
+            temp.push({ value: element.quantity });
         })
         setSend(temp);
-        //console.log('send data',send);
-
     }
 
     useEffect(() => {
-        fetchAssets();
-      }, []); 
+        if (token) {
+            fetchAssets();
+        }
+    }, [token]); 
     
-      useEffect(() => {
+    useEffect(() => {
         calculatePortfolio();
-      }, [assets]);
+    }, [assets]);
 
   return (
-    <div className='bg-black w-full'>
-   {/* Section-1 */}
-        <div className='flex justify-evenly items-center'>
-            
-
-            {/* leftDiv */}
-            <div className='flex flex-col gap-12 '>
-
-                <div className='flex justify-center gap-7'>
-                   <div className='flex flex-col'>
-                     
-                     <p className='text-blue-600 font-bold text-3xl'>Net Investment</p>
-                     <p className='text-blue-600 font-bold text-3xl' >$  {invested}</p>
-                    
+    <div className='min-h-screen bg-gradient-to-b from-[#0B0F19] to-[#111827] text-text-primary w-full p-6'>
+        <div className="max-w-7xl mx-auto flex flex-col gap-y-6">
+            <div className='flex flex-col md:flex-row gap-6 items-stretch'>
+                {/* Metrics Grid */}
+                <div className='flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6'>
+                    <div className='surface-premium p-6 flex flex-col gap-y-2 group hover:scale-[1.02] transition-all'>
+                        <p className='text-text-secondary font-bold text-xs uppercase tracking-wider'>Net Investment</p>
+                        <p className='text-white font-black text-3xl'>₹{invested.toLocaleString()}</p>
                     </div>
 
-                    <div className='flex flex-col'>
-                     
-                     <p className='text-blue-600 font-bold text-3xl'>Current Worth</p>
-                     <p className='text-blue-600 font-bold text-3xl'>$  {worth}</p>
-                    
-                    </div>
-                </div>
-
-
-
-                <div className='flex justify-center gap-7'>
-                   <div className='flex flex-col '>
-                     
-                     <p className='text-blue-600 font-bold text-3xl pr-16'>Percent Growth</p>
-                     <p className='text-blue-600 font-bold text-3xl'> {percent} %</p>
-                    
+                    <div className='surface-premium p-6 flex flex-col gap-y-2 group hover:scale-[1.02] transition-all'>
+                        <p className='text-text-secondary font-bold text-xs uppercase tracking-wider'>Current Worth</p>
+                        <p className='text-white font-black text-3xl'>₹{worth.toLocaleString()}</p>
                     </div>
 
-                    <div className='flex flex-col -translate-x-16'>
-                     
-                     <p className='text-blue-600 font-bold text-3xl'>Net Gains</p>
-                     <p className='text-blue-600 font-bold text-3xl'>$  {profit}</p>
-                    
+                    <div className='surface-premium p-6 flex flex-col gap-y-2 group hover:scale-[1.02] transition-all'>
+                        <p className='text-text-secondary font-bold text-xs uppercase tracking-wider'>Growth</p>
+                        <p className={`font-black text-3xl ${parseFloat(percent) >= 0 ? 'text-profit' : 'text-loss'}`}>{percent}%</p>
+                    </div>
+
+                    <div className='surface-premium p-6 flex flex-col gap-y-2 group hover:scale-[1.02] transition-all'>
+                        <p className='text-text-secondary font-bold text-xs uppercase tracking-wider'>Net Gains</p>
+                        <p className={`font-black text-3xl ${parseFloat(profit) >= 0 ? 'text-profit' : 'text-loss'}`}>₹{profit.toLocaleString()}</p>
                     </div>
                 </div>
 
-                
-
-
+                {/* Chart Section */}
+                <div className='surface-premium p-6 flex items-center justify-center min-w-[300px]'>
+                    <ElementHighlights data={send}/>
+                </div>
             </div>
 
-
-
-            {/* rightDiv */}
-            <div>
-            <ElementHighlights data={send}/>
+            {/* Assets Header */}
+            <div className="flex items-center justify-between px-1 mt-4">
+                <h2 className="text-2xl font-black tracking-tight text-white uppercase italic">Your Assets</h2>
+                <div className="flex items-center gap-x-2">
+                    <span className="w-2 h-2 bg-profit rounded-full animate-pulse"></span>
+                    <span className="text-xs font-bold text-text-secondary uppercase">Live Portfolio</span>
+                </div>
             </div>
 
-
-
+            {/* Cards section */}
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+                {assets.map((symbol, index) => (
+                    <AssetCard key={index} data={symbol} />
+                ))}
+            </div>
         </div>
-
-        {/* Cards section */}
-        
-        <div className='grid grid-cols-3 mx-auto w-9/12 pl-16 pb-4 gap-y-4 '>
-            {
-            
-            assets.map((symbol,index)=>(
-                <AssetCard data={symbol}  />
-            ))
-            }
-        </div>
-        
     </div>
   )
 }

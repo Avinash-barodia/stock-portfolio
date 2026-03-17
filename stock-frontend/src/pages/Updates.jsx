@@ -43,7 +43,7 @@ export const Updates = () => {
     },[]);
   return (
 
-    <div className='relative flex flex-col bg-black '>
+    <div className='relative flex flex-col min-h-screen bg-gradient-to-b from-[#0B0F19] to-[#111827] py-12'>
         <div className='w-10/12 mx-auto'>
        
         <h1 className='text-center text-4xl text-white font-mono'>Top Breaking </h1>

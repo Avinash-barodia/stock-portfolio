@@ -21,29 +21,39 @@ export const MarketUpdate = () => {
         {/* Indicators Row */}
         <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
           {marketIndicators.map((ind, idx) => (
-            <div key={idx} className='glass-card-premium p-4 flex flex-col gap-y-1 hover:scale-[1.03] transition-transform cursor-default'>
-              <span className='text-[10px] font-bold text-text-secondary uppercase tracking-widest'>{ind.name}</span>
-              <div className='flex items-center justify-between'>
-                <span className='text-lg font-bold text-white'>{ind.value}</span>
-                <span className={`text-xs font-bold ${ind.positive ? 'text-profit' : 'text-loss'}`}>{ind.change}</span>
+            <div key={idx} className={`glass-card-premium p-5 flex flex-col gap-y-2 cursor-default border-transparent transition-premium hover:border-${ind.positive ? 'profit' : 'loss'}/30`}>
+              <div className="flex items-center justify-between">
+                <span className='text-[10px] font-black text-text-secondary uppercase tracking-widest'>{ind.name}</span>
+                {ind.positive && (
+                  <span className="heartbeat-live translate-y-[-1px]">
+                    <span className="heartbeat-live-ring"></span>
+                    <span className="heartbeat-live-core"></span>
+                  </span>
+                )}
+              </div>
+              <div className='flex items-end justify-between'>
+                <span className='text-lg font-black text-white leading-none'>{ind.value}</span>
+                <span className={`text-[11px] font-black ${ind.positive ? 'text-profit' : 'text-loss'} flex items-center gap-x-1`}>
+                  {ind.positive ? '▲' : '▼'} {ind.change}
+                </span>
               </div>
             </div>
           ))}
         </div>
 
-        <div className='glass-card-premium p-6 flex flex-col gap-y-6'>
+        <div className='surface-premium p-6 flex flex-col gap-y-6'>
            <div className='flex items-center justify-between'>
               <h2 className='text-xl font-bold tracking-tight text-white'>Market Assets</h2>
-              <div className='flex bg-white/5 p-1 rounded-xl border border-white/5'>
+              <div className='flex bg-white/5 p-1 rounded-xl border border-white/5 transition-premium'>
                 <button 
                   onClick={() => setActive(0)}
-                  className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${active === 0 ? 'bg-primary-blue text-white shadow-lg' : 'text-text-secondary hover:text-white'}`}
+                  className={`px-4 py-1.5 text-xs font-bold rounded-lg btn-premium ${active === 0 ? 'bg-primary-blue text-white shadow-lg shadow-primary-blue/20' : 'text-text-secondary hover:text-white hover:bg-white/5'}`}
                 >
                   Crypto
                 </button>
                 <button 
                   onClick={() => setActive(1)}
-                  className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${active === 1 ? 'bg-primary-blue text-white shadow-lg' : 'text-text-secondary hover:text-white'}`}
+                  className={`px-4 py-1.5 text-xs font-bold rounded-lg btn-premium ${active === 1 ? 'bg-primary-blue text-white shadow-lg shadow-primary-blue/20' : 'text-text-secondary hover:text-white hover:bg-white/5'}`}
                 >
                   Stocks
                 </button>

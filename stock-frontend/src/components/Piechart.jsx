@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { PieChart } from '@mui/x-charts/PieChart';
 import axios from 'axios';
+import api from '../utils/api';
 import { useSelector } from 'react-redux';
 
 
@@ -34,7 +35,7 @@ export default function ElementHighlights() {
   const fetchData=async()=>{
     try{
         console.log('token',token);
-        const res = await axios.get('/api/v1/getStocks', {
+        const res = await api.get('/getStocks', {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

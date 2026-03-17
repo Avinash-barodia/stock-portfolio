@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createChart, CrosshairMode } from 'lightweight-charts';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import api from '../utils/api';
 import { calculateSMA, calculateRSI } from '../utils/indicators';
 import { nifty } from '../assets/nifty500';
 
@@ -37,7 +38,7 @@ export const Technical = () => {
             let formattedData = [];
             if (isStock) {
                 // Fetch from our backend proxy with range
-                const response = await axios.get(`/api/v1/history/${upperName}?interval=${intv}&range=${rng}`);
+                const response = await api.get(`/history/${upperName}?interval=${intv}&range=${rng}`);
                 formattedData = response.data.data;
             } else {
                 // Fetch from Binance for Crypto
@@ -190,7 +191,7 @@ export const Technical = () => {
                 // Polling for Stocks
                 pollRef.current = setInterval(async () => {
                     try {
-                        const res = await axios.get(`http://localhost:8080/fetch/${upperName}`);
+                        const res = await api.get(`/fetch/${upperName}`);
                         if (seriesRef.current && !isCancelled) {
                             const newPrice = parseFloat(res.data.price);
                             setPrice(newPrice);

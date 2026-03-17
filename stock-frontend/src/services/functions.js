@@ -1,12 +1,12 @@
-import axios from "axios";
 import { setLoading, setToken } from "../redux/reducers/user"
+import api from "../utils/api";
 
 export function login(email,password,navigate){
     return async (dispatch)=>{
       dispatch(setLoading(true));
       try{
        // console.log('reached inside function and now making api call');
-        const result=await axios.post("/api/v1/login",{email,password});
+        const result=await api.post("/login",{email,password});
        
         console.log('data in functions',result);
         dispatch(setToken(result.data.token));
