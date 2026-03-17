@@ -6,6 +6,7 @@ const {auth}=require('../middlewares/auth');
 const {cryptoStream}=require('../controllers/cryptoStream')
 const {updateDaily,getDailyData,updatePrices}=require('../controllers/dailyUpdate');
 const { getStockHistory } = require('../controllers/stockHistory');
+const { fetchStockData } = require('../controllers/scraper');
 
 router.post("/buy",auth,buyStock);
 router.get('/daily',getData);
@@ -15,4 +16,5 @@ router.post('/update',updateDaily);
 router.post('/daily',getDailyData);
 router.post('/priceUpdate',updatePrices);
 router.get('/history/:symbol', getStockHistory);
+router.get('/fetch/:ticker', fetchStockData);
 module.exports=router;

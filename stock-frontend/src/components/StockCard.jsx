@@ -13,7 +13,7 @@ export const StockCard = ({ data }) => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/fetch/${data}`);
+      const res = await axios.get(`/api/v1/fetch/${data}`);
       setPrice(res.data.price);
       setCol(price >= prev ? 1 : 0);
       setVolume(res.data.volume);
