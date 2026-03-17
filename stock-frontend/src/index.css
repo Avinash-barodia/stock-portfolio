@@ -1,34 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@keyframes scroll {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
+@layer base {
+  :root {
+    --background: #0B0F19;
+    --secondary: #121826;
+    --card: #1A2236;
+    --border: #2A3447;
+    --profit: #22C55E;
+    --loss: #EF4444;
+    --text-primary: #F9FAFB;
+    --text-secondary: #9CA3AF;
+  }
+
+  body {
+    @apply bg-background text-[#F9FAFB] antialiased;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 { @apply text-[28px] font-bold tracking-tight; }
+  h2 { @apply text-[22px] font-semibold tracking-tight; }
+  h3 { @apply text-[18px] font-medium tracking-tight; }
+  p, div { @apply text-[14px]; }
+  small, .text-xs { @apply text-[12px]; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-blue hover:bg-blue-600 text-white font-bold py-2.5 px-6 rounded-xl transition-all duration-200 shadow-lg shadow-primary-blue/20;
+  }
+
+  .glass-card-premium {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl transition-all duration-300;
+  }
+
+  .glass-card-premium:hover {
+    @apply bg-white/[0.08] border-white/20 shadow-2xl scale-[1.01];
+  }
+
+  .btn-premium {
+    @apply transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+  }
+
+  /* Global Dark Mode Input Polish */
+  input, select, textarea {
+    @apply bg-white/5 border border-white/10 text-main rounded-xl transition-all duration-200;
   }
   
-  .animate-scroll {
+  input:focus, select:focus, textarea:focus {
+    @apply border-primary-blue/50 bg-white/[0.08] outline-none ring-2 ring-primary-blue/20;
+  }
+
+  ::placeholder {
+    @apply text-muted/50;
+  }
+}
+
+.scroll-smooth-all {
+  scroll-behavior: smooth;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+  
+.animate-scroll {
     display: inline-flex;
     white-space: nowrap;
-    animation: scroll 10s linear infinite;
-  }
+    animation: scroll 15s linear infinite;
+}
   
-  .ticker-container {
-    position: relative; /* Ensures the ticker fits inside this container */
-    overflow-y: hidden; /* Prevents both vertical and horizontal overflow */
+.ticker-container {
+    position: relative;
+    overflow: hidden;
     height: 100%;
-  }
+}
   
-  .ticker-item {
+.ticker-item {
     display: flex;
     align-items: center;
     padding: 0 20px;
     height: 100%;
-  }
-  
-  
-  
+}

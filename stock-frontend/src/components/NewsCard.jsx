@@ -4,10 +4,17 @@ import axios from 'axios';
 export const NewsCard = ({data}) => {
   
   return (
-    <div className='p-4 flex flex-col justify-evenly space-y-7  bg-gradient-to-r from-gray-900 to-blue-900 hover:scale-110 transition-all duration-200 rounded-md  ' onClick={()=>window.open(data.url,'_blank')}>
-        <div className='w-8rem'><img src={data.urlToImage} alt="" /></div>
-        <div className='text-white text-2xl font-bold '>{data.title}</div>
-        <p className='text-white pl-[9rem]'>- {data.author}</p>
+    <div className='glass-card-premium p-4 flex flex-col gap-y-4 hover:translate-y-[-4px] cursor-pointer group' onClick={() => window.open(data.url, '_blank')}>
+        <div className='h-40 overflow-hidden rounded-xl'>
+          <img src={data.urlToImage} alt="" className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-500' />
+        </div>
+        <div className='space-y-2'>
+          <h3 className='text-base font-bold leading-tight group-hover:text-primary-blue transition-colors'>{data.title}</h3>
+          <div className='flex justify-between items-center'>
+            <span className='text-[11px] text-text-secondary font-medium italic'>- {data.author || 'Market News'}</span>
+            <span className='text-[10px] text-primary-blue font-bold uppercase tracking-widest'>Read More</span>
+          </div>
+        </div>
     </div>
   )
 }
