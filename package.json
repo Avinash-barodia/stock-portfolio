@@ -5,6 +5,7 @@
     "install-all": "npm install && cd backend && npm install && cd ../stock-frontend && npm install",
     "build-frontend": "cd stock-frontend && npm run build",
     "start": "cd backend && npm start",
+    "build": "npm run render-build",
     "render-build": "npm run install-all && npm run build-frontend"
   }
 }
